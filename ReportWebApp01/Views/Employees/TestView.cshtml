@@ -1,0 +1,16 @@
+﻿
+@{
+    ViewBag.Title = "TestView";
+}
+
+<h2>TestView</h2>
+
+@using (Html.BeginForm())
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.SearchString as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+@Html.Action("EmployeesList", "Employees", new { SearchString = ViewBag.SearchString })

@@ -1,0 +1,15 @@
+﻿@model ReportWebApp01.Models.Employee
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+@Html.Partial("_EmployeePartial", Model)
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

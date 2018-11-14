@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "AjaxTest";
+}
+
+<h2>AjaxTest</h2>
+
+<p>@DateTime.Now</p>
+
+<br />
+
+@Html.Label("DepartmentId", "部署")
+@Html.DropDownList("DepartmentId", null, "部署を選択してください", htmlAttributes: new { @class = "form-control", @onChange = "getEmployees(this)" })
+
+<br />
+
+<div id="result"></div>
+
+<hr />
+
+Nickname Search : @Html.TextBox("SearchString")
+<button type="button" onclick="getEmployees2()">Search</button>
+<br />
+<br />
+<div id="result2"></div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+        
+        function getEmployees(e) {
+            //var id = e.value;
+            //alert(id);
+            //$("#result").load('/Employees/AjaxSearch/' + e.value);
+            //$("#result").load('/Employees/AjaxSearch?id=' + e.value);
+        }
+
+        function getEmployees2() {
+            var str = document.getElementById("SearchString").value;
+            var did = document.getElementById("DepartmentId").value;
+            $("#result2").load('/Employees/AjaxSearch?id=' + str + '&did=' + did);
+        }
+
+    </script>
+}

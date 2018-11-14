@@ -1,0 +1,9 @@
+﻿@model IEnumerable<ReportWebApp01.Models.Employee>
+
+@{
+    ViewBag.Title = "Paging";
+}
+
+<h2>Paging</h2>
+
+@Html.Partial("_EmployeesPaging", Model)

@@ -1,0 +1,140 @@
+﻿@model ReportWebApp01.Models.Steps
+
+@{
+    ViewBag.Title = "Create2";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/black-tie/jquery-ui.css">
+
+<h2>Create2</h2>
+
+<!-- 社員検索ダイアログ start -->
+<div id="dialog">
+    @using (Html.BeginForm("Create2", "Steps", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <input type="hidden" id="autoOpen_dialog" name="autoOpen" value="true" />
+        <input type="hidden" id="EmployeeID_dialog" name="EmployeeID" value="" />
+        <input type="hidden" id="ActDate_dialog" name="ActDate" value="" />
+        <input type="hidden" id="Value_dialog" name="Value" value="" />
+        <p>
+            検索 @Html.TextBox("SearchString")
+            <input type="submit" value="検索" />
+        </p>
+
+    }
+    <table class="table table-hover">
+        <tr>
+            <th></th>
+            <th>
+                部署名
+            </th>
+            <th>
+                ニックネーム
+            </th>
+        </tr>
+
+        @foreach (var item in ViewBag.Employees as IEnumerable<ReportWebApp01.Models.Employee>)
+        {
+            <tr>
+                <td>
+                    <button type="button" onclick="selectEmployee('@item.Id', '@item.Nickname')" class="btn btn-primary">選択</button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Department.Department_name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nickname)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<!-- 社員検索ダイアログ end -->
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Steps</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmployeeID, "社員", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <span id="Nickname">@Html.DisplayFor(model => model.Employee.Nickname)</span>
+                <button type="button" id="opener" class="btn btn-primary">社員を検索</button>
+                @Html.ValidationMessageFor(model => model.EmployeeID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @Html.HiddenFor(model => model.EmployeeID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ActDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ActDate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ActDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Value, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $("#ActDate").datepicker({});
+    });
+
+    $("#dialog").dialog({
+        autoOpen: @ViewBag.autoOpen,
+        modal: true,
+        title: "社員選択ダイアログ",
+        height: 700,
+        width: 600,
+        buttons: {
+            Cancel: function () {
+                $(this).dialog("close");
+            }
+        },
+        open: function () {
+            document.getElementById("EmployeeID_dialog").value = document.getElementById("EmployeeID").value;
+            document.getElementById("ActDate_dialog").value = document.getElementById("ActDate").value;
+            document.getElementById("Value_dialog").value = document.getElementById("Value").value;
+        }
+    });
+
+    $("#opener").click(function () {
+        $("#dialog").dialog("open");
+    });
+
+    function selectEmployee(id, name) {
+        document.getElementById("EmployeeID").value = id;
+        document.getElementById("Nickname").textContent = name;
+        $("#dialog").dialog("close");
+    }
+
+</script>
