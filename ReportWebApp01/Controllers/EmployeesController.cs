@@ -20,7 +20,7 @@ namespace ReportWebApp01.Controllers
             var employees = db.Employees.Include(e => e.Department).OrderBy(e => e.Id);
             return View(employees.ToList());
         }
-
+        
         // GET: Employees
         public ActionResult Paging(string currentFilter, string searchString, int? page)
         {
@@ -86,6 +86,25 @@ namespace ReportWebApp01.Controllers
             {
                 return HttpNotFound();
             }
+            return View(employee);
+        }
+
+        
+        public ActionResult RadioList(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Employee employee = db.Employees.Find(id);
+            if (employee == null)
+            {
+                return HttpNotFound();
+            }
+
+            ViewBag.Names = from e in db.Employees
+                            select new SelectListItem { Value = e.Id.ToString(), Text = e.Nickname };
+
             return View(employee);
         }
 

@@ -44,5 +44,10 @@ namespace ReportWebApp01.Controllers
         {
             return PartialView("_CurrentTimePartial", DateTime.Now);
         }
+
+        public ActionResult Helper()
+        {
+            return View();
+        }
     }
 }

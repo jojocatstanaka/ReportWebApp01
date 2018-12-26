@@ -198,6 +198,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MyHelper.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
@@ -363,10 +364,11 @@
     <Content Include="Views\Employees\View.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Calendar.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Calendar2.cshtml" />
+    <Content Include="Views\Home\Helper.cshtml" />
+    <Content Include="Views\Employees\RadioList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
