@@ -266,6 +266,40 @@ namespace ReportWebApp01.Controllers
         }
 
         /* */
+        [HttpGet]
+        public ActionResult ListEmp()
+        {
+                        
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ListEmp(int[] Id)
+        {
+            if (Id != null)
+            {
+                List<Employee> SelectedEmps = new List<Employee>();
+
+                foreach(int eid in Id)
+                {
+                    Employee emp = db.Employees.Find(eid);
+                    if(emp != null)
+                    {
+                        SelectedEmps.Add(emp);
+                    }
+                }
+
+                ViewBag.SelectedEmps = SelectedEmps;
+            }
+            else
+            {
+                ModelState.AddModelError("", "ユーザを選択してください。");
+            }
+            
+
+            return View();
+        }
 
         /********* カスタマイズCreate Start *********/
 

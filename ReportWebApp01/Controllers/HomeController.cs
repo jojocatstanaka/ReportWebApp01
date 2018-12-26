@@ -26,6 +26,18 @@ namespace ReportWebApp01.Controllers
 
             return View();
         }
+        
+        public ActionResult JsTest()
+        {
+            
+
+            return View();
+        }
+
+        public ActionResult JsTest2()
+        {
+            return View();
+        }
 
         [ChildActionOnly]
         public ActionResult CurrentTime()

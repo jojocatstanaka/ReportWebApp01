@@ -1,0 +1,70 @@
+﻿
+@{
+    ViewBag.Title = "JsTest";
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/black-tie/jquery-ui.css">
+
+<h2>JsTest</h2>
+
+<label for="name">name</label>
+<input type="text" id="name" class="input-text">
+<br />
+<br />
+<label for="email">Email</label>
+<input type="text" id="email" class="input-text">
+<br />
+<br />
+<label for="birthday">Birthday</label>
+<input type="text" id="birthday" class="input-text">
+<br />
+<br />
+<input type="button" value="test" id="test">
+<input type="button" value="clear" id="clear">
+<br />
+<br />
+<input type="button" value="test2" id="test2" onclick="test2()">
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        function test2() {
+            alert("test!");
+        }
+
+        $(function () {
+
+            $("#birthday").datepicker({
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "-100:+0",
+                dateFormat: "yy-mm-dd"
+            });
+
+            $('#test').click(function () {
+                document.getElementById('name').value = "yamada";
+                document.getElementById('email').value = "yamada@test.jp";
+                
+            });
+
+            $('#clear').click(function () {
+                document.getElementById('name').value = "";
+                document.getElementById('email').value = "";
+                document.getElementById('birthday').value = "";
+            });
+
+            $('.input-text').focus(function () {
+                $(this).css('background-color', '#E0E0F8');
+            }).blur(function () {
+                $(this).css('background-color', '#ffffff')
+            });
+
+            
+
+        });
+    </script>
+}

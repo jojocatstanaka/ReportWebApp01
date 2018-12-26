@@ -16,6 +16,7 @@ namespace ReportWebApp01.Models
         public string Nickname { get; set; }
 
         [DisplayName("生年月日")]
+        [UIHint("Calendar2")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
 
@@ -25,6 +26,7 @@ namespace ReportWebApp01.Models
         public virtual Department Department { get; set; }
 
         [DisplayName("備考")]
+        [DataType(DataType.MultilineText)]
         public string Remarks { get; set; }
     }
 }
