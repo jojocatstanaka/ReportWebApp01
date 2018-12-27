@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using OfficeOpenXml;
 using ReportWebApp01.Models;
 
 namespace ReportWebApp01.Controllers
@@ -21,6 +22,73 @@ namespace ReportWebApp01.Controllers
             return View(employees.ToList());
         }
         
+        public void ExportToExcel()
+        {
+            var employees = db.Employees.Include(e => e.Department).OrderBy(e => e.Id).ToList();
+
+            ExcelPackage pck = new ExcelPackage();
+
+            ExcelWorksheet wsEmp = pck.Workbook.Worksheets.Add("Employees");
+
+            wsEmp.Cells["A1"].Value = "ReportName";
+            wsEmp.Cells["B1"].Value = "Employees List";
+
+            wsEmp.Cells["A2"].Value = "Date";
+            wsEmp.Cells["B2"].Value = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+            wsEmp.Cells["A4"].Value = "Employees";
+
+            wsEmp.Cells["A5"].Value = "Id";
+            wsEmp.Cells["B5"].Value = "Nickname";
+            wsEmp.Cells["C5"].Value = "Birthday";
+            wsEmp.Cells["D5"].Value = "Department";
+            wsEmp.Cells["E5"].Value = "Remarks";
+
+            int rowStart = 6;
+            foreach(var item in employees)
+            {
+                wsEmp.Cells[String.Format("A{0}", rowStart)].Value = item.Id;
+                wsEmp.Cells[String.Format("B{0}", rowStart)].Value = item.Nickname;
+                wsEmp.Cells[String.Format("C{0}", rowStart)].Value = item.Birthday.ToString("yyyy-MM-dd");
+                wsEmp.Cells[String.Format("D{0}", rowStart)].Value = item.Department.Department_name;
+                wsEmp.Cells[String.Format("E{0}", rowStart)].Value = item.Remarks;
+
+                rowStart++;
+            }
+
+            var departments = db.Departments.OrderBy(d => d.Id).ToList();
+
+            ExcelWorksheet wsDep = pck.Workbook.Worksheets.Add("Departments");
+
+            wsDep.Cells["A1"].Value = "ReportName";
+            wsDep.Cells["B1"].Value = "Departments List";
+
+            wsDep.Cells["A2"].Value = "Date";
+            wsDep.Cells["B2"].Value = String.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+            wsDep.Cells["A4"].Value = "Departments";
+
+            wsDep.Cells["A5"].Value = "Id";
+            wsDep.Cells["B5"].Value = "DepartmentName";
+            wsDep.Cells["C5"].Value = "Description";
+
+            rowStart = 6;
+            foreach(var item in departments)
+            {
+                wsDep.Cells[String.Format("A{0}", rowStart)].Value = item.Id;
+                wsDep.Cells[String.Format("B{0}", rowStart)].Value = item.Department_name;
+                wsDep.Cells[String.Format("C{0}", rowStart)].Value = item.Description;
+
+                rowStart++;
+            }
+            
+            Response.Clear();
+            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+            Response.AddHeader("Content-Disposition", "attachment;filename=FatabitExport-" + DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".xlsx");
+            Response.BinaryWrite(pck.GetAsByteArray());
+            Response.End();
+        }
+
         // GET: Employees
         public ActionResult Paging(string currentFilter, string searchString, int? page)
         {

@@ -137,3 +137,5 @@ C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebA
 C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebApp01\obj\Debug\ReportWebApp01.csproj.CopyComplete
 C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebApp01\obj\Debug\ReportWebApp01.dll
 C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebApp01\obj\Debug\ReportWebApp01.pdb
+C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebApp01\bin\EPPlus.dll
+C:\Users\z2h7803\Documents\Visual Studio 2017\Projects\ReportWebApp01\ReportWebApp01\bin\EPPlus.xml
