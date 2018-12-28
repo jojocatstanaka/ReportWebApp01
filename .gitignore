@@ -260,6 +260,6 @@ paket-files/
 __pycache__/
 *.pyc
 
-.vs/config/applicationhost.config
-.vs/ReportWebApp01/v15/.suo
-ReportWebApp01/obj/Debug/ReportWebApp01.csproj.CoreCompileInputs.cache
+applicationhost.config
+.suo
+ReportWebApp01.csproj.CoreCompileInputs.cache
