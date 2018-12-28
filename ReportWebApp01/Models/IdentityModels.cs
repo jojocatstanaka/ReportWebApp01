@@ -35,5 +35,9 @@ namespace ReportWebApp01.Models
         public System.Data.Entity.DbSet<ReportWebApp01.Models.Employee> Employees { get; set; }
 
         public System.Data.Entity.DbSet<ReportWebApp01.Models.Steps> Steps { get; set; }
+
+        public System.Data.Entity.DbSet<ReportWebApp01.Models.Corprate> Corprates { get; set; }
+
+        public System.Data.Entity.DbSet<ReportWebApp01.Models.FitbitAccount> FitbitAccounts { get; set; }
     }
 }

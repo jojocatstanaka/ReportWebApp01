@@ -1,0 +1,90 @@
+﻿@model ReportWebApp01.Models.FitbitAccount
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FitbitAccount</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Corp_code)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Corp_code)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Nickname)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nickname)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeviceList)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeviceList)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gift_flg)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gift_flg)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Last_sync_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Last_sync_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Access_token)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Access_token)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Refresh_token)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Refresh_token)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Create_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Create_date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Update_date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Update_date)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.User_code }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

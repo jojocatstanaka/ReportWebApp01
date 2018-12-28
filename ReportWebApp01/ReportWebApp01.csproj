@@ -195,8 +195,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CorpratesController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
+    <Compile Include="Controllers\FitbitAccountsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StepsController.cs" />
@@ -204,10 +206,21 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MyHelper.cs" />
+    <Compile Include="Migrations\201812270615517_Initial.cs" />
+    <Compile Include="Migrations\201812270615517_Initial.Designer.cs">
+      <DependentUpon>201812270615517_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201812270643029_Add-FitbitAccount.cs" />
+    <Compile Include="Migrations\201812270643029_Add-FitbitAccount.Designer.cs">
+      <DependentUpon>201812270643029_Add-FitbitAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Corprate.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Models\EmployeeViewModels.cs" />
+    <Compile Include="Models\FitbitAccount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Steps.cs" />
@@ -371,6 +384,16 @@
     <Content Include="Views\Shared\EditorTemplates\Calendar2.cshtml" />
     <Content Include="Views\Home\Helper.cshtml" />
     <Content Include="Views\Employees\RadioList.cshtml" />
+    <Content Include="Views\Corprates\Create.cshtml" />
+    <Content Include="Views\Corprates\Delete.cshtml" />
+    <Content Include="Views\Corprates\Details.cshtml" />
+    <Content Include="Views\Corprates\Edit.cshtml" />
+    <Content Include="Views\Corprates\Index.cshtml" />
+    <Content Include="Views\FitbitAccounts\Create.cshtml" />
+    <Content Include="Views\FitbitAccounts\Delete.cshtml" />
+    <Content Include="Views\FitbitAccounts\Details.cshtml" />
+    <Content Include="Views\FitbitAccounts\Edit.cshtml" />
+    <Content Include="Views\FitbitAccounts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -387,6 +410,14 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201812270615517_Initial.resx">
+      <DependentUpon>201812270615517_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201812270643029_Add-FitbitAccount.resx">
+      <DependentUpon>201812270643029_Add-FitbitAccount.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
