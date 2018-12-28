@@ -263,3 +263,5 @@ __pycache__/
 applicationhost.config
 .suo
 ReportWebApp01.csproj.CoreCompileInputs.cache
+
+Migrations/
