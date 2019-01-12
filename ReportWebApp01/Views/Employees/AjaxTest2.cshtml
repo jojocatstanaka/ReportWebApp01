@@ -77,6 +77,12 @@
     <br />
     <div id="result"></div>
     <br />
+    <nav>
+        <ul class="pager">
+            <li><a href="#" >Prev</a></li>
+            <li><a href="#" >Next</a></li>
+        </ul>
+    </nav>
     <br />
     <table class="table" id="table-emp">
         <tr>
@@ -123,6 +129,15 @@
                             
                             if (xhr.responseText === '[]') {
                                 result.textContent = '検索条件に一致ユーザなし';
+
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
                             } else {
                                 var data = JSON.parse(xhr.responseText);
                                 
