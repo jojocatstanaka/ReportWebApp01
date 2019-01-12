@@ -16,6 +16,7 @@ namespace ReportWebApp01.Controllers
     public class EmployeesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private int pageSize = 5;
 
         // GET: Employees
         public ActionResult Index()
@@ -403,28 +404,54 @@ namespace ReportWebApp01.Controllers
         public ActionResult AjaxTest2()
         {
             ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Department_name");
-            ViewBag.Emps = db.Employees;
+            ViewBag.Emps = db.Employees.OrderBy(e => e.Id).Take(pageSize);
+
+
 
             return View();
         }
 
         [HttpGet]
-        public ActionResult AjaxTest2Result(string search)
+        public ActionResult AjaxTest2Result(string search, int page, string act)
         {
-            //Thread.Sleep(2000);
+            Thread.Sleep(500);
 
-            List<Employee> emps;
-            
-            if (String.IsNullOrEmpty(search))
+            if (page < 0)
             {
-                emps = db.Employees.ToList();
+                return Content("minpage");
+            }
+
+            if(act == "next")
+            {
+                page = page + 1;
+            }
+            else if(act == "prev")
+            {
+                page = page - 1;
             }
             else
-            {               
-                emps = db.Employees.Where(e => e.Nickname.Contains(search)).ToList();
+            {
+
             }
 
-            string jsonString = JsonConvert.SerializeObject(emps);
+            var emps = from e in db.Employees select e;
+            
+            if (!String.IsNullOrEmpty(search))
+            {
+                emps = emps.Where(e => e.Nickname.Contains(search));
+            }
+
+            emps = emps.OrderBy(e => e.Id).Skip(page * pageSize).Take(pageSize);
+
+            if (emps.Count() == 0)
+            {
+                if (act == "next")
+                {
+                    return Content("maxpage");
+                }                   
+            }
+
+            string jsonString = JsonConvert.SerializeObject(emps.ToList());
 
             return Content(jsonString);
         }

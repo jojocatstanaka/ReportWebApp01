@@ -80,10 +80,12 @@
     <br />
     <nav>
         <ul class="pager">
-            <li><a href="#" >Prev</a></li>
-            <li><a href="#" >Next</a></li>
+            <li id="li-prev"><a href="#" class="prev-paging">Prev</a></li>
+            <li id="li-next"><a href="#" class="next-paging">Next</a></li>
         </ul>
     </nav>
+    <input type="hidden" id="hid-page" value="0" />
+    
     <br />
     <table class="table" id="table-emp">
         <tr>
@@ -115,7 +117,160 @@
 
     <script type="text/javascript">
 
-        
+        $(function () {
+
+            // Nextページボタン
+            $('a.next-paging').click(function (event) {
+                event.preventDefault();
+
+                var result = document.getElementById('result');
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {    // 通信が完了した場合
+                        if (xhr.status === 200) {  // 通信が成功した場合
+                            result.textContent = 'データを取得中...';
+                            //jyoshi.value = xhr.responseText;
+
+                            if (xhr.responseText === '[]') {
+                                result.textContent = 'データが存在しません';
+
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
+                            } else if (xhr.responseText === 'maxpage') {
+                                // 最大ページに達したら、何もしない
+                                result.textContent = '';
+                            }
+                            else
+                            {
+                                var data = JSON.parse(xhr.responseText);
+
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
+
+                                for (var i = 0; i < data.length; i++) {
+                                    // 行を行末に追加
+                                    var row = table.insertRow(-1);
+                                    //td分追加
+                                    var cell1 = row.insertCell(-1);
+                                    var cell2 = row.insertCell(-1);
+                                    cell1.innerHTML = '<button type="button" class="btn btn-primary" onclick="selectEmp(' + '\'' + data[i].Nickname + '\'' + ')">選択</button>';
+                                    cell2.innerHTML = data[i].Nickname;
+                                }
+
+                                var page = Number(document.getElementById('hid-page').value);
+                                document.getElementById('hid-page').value = page + 1;
+
+                                result.textContent = 'データを表示しました';
+                            }
+
+                        } else {
+                            result.textContent = 'データ取得が失敗しました。';
+                        }
+                    } else {
+                        result.textContent = 'データ取得中...';
+                    }
+                };
+
+                xhr.open('GET', '/Employees/AjaxTest2Result?search=' +
+                    encodeURIComponent(document.getElementById('text-search').value) +
+                    '&page=' + document.getElementById('hid-page').value + '&act=next', true);
+                xhr.send(null);
+
+            });
+
+            // Prevページボタン
+            $('a.prev-paging').click(function (event) {
+                event.preventDefault();
+
+                if (document.getElementById('hid-page').value <= 0) {
+                    return;
+                }
+
+                var result = document.getElementById('result');
+
+                var xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {    // 通信が完了した場合
+                        if (xhr.status === 200) {  // 通信が成功した場合
+                            result.textContent = 'データを取得中...';
+                            //jyoshi.value = xhr.responseText;
+
+                            if (xhr.responseText === '[]') {
+                                result.textContent = 'データが存在しません';
+
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
+                            } else if (xhr.responseText === 'minpage') {
+                                // 最初ページに達したら、何もしない
+                                result.textContent = '';
+                            }
+                            else {
+                                var data = JSON.parse(xhr.responseText);
+
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
+
+                                for (var i = 0; i < data.length; i++) {
+                                    // 行を行末に追加
+                                    var row = table.insertRow(-1);
+                                    //td分追加
+                                    var cell1 = row.insertCell(-1);
+                                    var cell2 = row.insertCell(-1);
+                                    cell1.innerHTML = '<button type="button" class="btn btn-primary" onclick="selectEmp(' + '\'' + data[i].Nickname + '\'' + ')">選択</button>';
+                                    cell2.innerHTML = data[i].Nickname;
+                                }
+
+                                var page = Number(document.getElementById('hid-page').value);
+                                document.getElementById('hid-page').value = page - 1;
+
+                                result.textContent = 'データを表示しました';
+                            }
+
+                        } else {
+                            result.textContent = 'データ取得が失敗しました。';
+                        }
+                    } else {
+                        result.textContent = 'データ取得中...';
+                    }
+                };
+
+                xhr.open('GET', '/Employees/AjaxTest2Result?search=' +
+                    encodeURIComponent(document.getElementById('text-search').value) +
+                    '&page=' + document.getElementById('hid-page').value + '&act=prev', true);
+                xhr.send(null);
+
+            });
+
+        });
+
+        // 検索ボタンクリック時の処理
         document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('btn-search').addEventListener('click', function () {
                 var result = document.getElementById('result');
@@ -139,7 +294,11 @@
                                 for (var i = rowLen - 1; i > 0; i--) {
                                     table.deleteRow(i);
                                 }
-                            } else {
+                            } else if (xhr.responseText === 'maxpage') {
+                                
+                            }
+                            else
+                            {
                                 var data = JSON.parse(xhr.responseText);
                                 
                                 // 従業員表示テーブルつくりかえ
@@ -161,6 +320,8 @@
                                     cell2.innerHTML = data[i].Nickname;
                                 }
 
+                                document.getElementById('hid-page').value = 0;
+
                                 result.textContent = '検索結果を表示しました';
                             }
 
@@ -172,7 +333,7 @@
                     }
                 };
                 xhr.open('GET', '/Employees/AjaxTest2Result?search=' +
-                    encodeURIComponent(document.getElementById('text-search').value), true);
+                    encodeURIComponent(document.getElementById('text-search').value) + '&page=0&act=search', true);
                 xhr.send(null);
             }, false);
         }, false);
