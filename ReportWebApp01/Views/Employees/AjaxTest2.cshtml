@@ -71,6 +71,7 @@
 <!-- 従業員検索ダイアログ start -->
 <div id="dialog">
     <div class="form-inline">
+        <label class="control-label">名前検索&nbsp;</label>
         <input type="text" id="text-search" class="form-control" />
         <input type="button" id="btn-search" class="btn btn-primary" value="Search" />
     </div>
@@ -128,7 +129,7 @@
                             //jyoshi.value = xhr.responseText;
                             
                             if (xhr.responseText === '[]') {
-                                result.textContent = '検索条件に一致ユーザなし';
+                                result.textContent = '検索条件に一致するユーザがいません';
 
                                 // 従業員表示テーブルつくりかえ
                                 var table = document.getElementById("table-emp");
@@ -180,9 +181,9 @@
         $("#dialog").dialog({
             autoOpen: false,
             modal: true,
-            title: "従業員検索ダイアログ",
+            title: "ユーザ検索ダイアログ",
             height: 700,
-            width: 500,
+            width: 550,
             buttons: {
                 Cancel: function () {
                     $(this).dialog("close");
