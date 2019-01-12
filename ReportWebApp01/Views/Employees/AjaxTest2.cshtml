@@ -1,0 +1,194 @@
+﻿@model ReportWebApp01.Models.Employee
+
+@{
+    ViewBag.Title = "AjaxTest2";
+}
+
+<h2>AjaxTest2</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Employee</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nickname, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Nickname, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Nickname, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DepartmentId, "部署", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("DepartmentId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.DepartmentId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group form-inline">
+            <label class="control-label col-md-2">上司</label>
+            <div class="col-md-10">
+                <input type="text" class="form-control" readonly="readonly" id="Jyoshi" />
+                <button id="btn" type="button" class="btn btn-primary">従業員 検索</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+<!-- 従業員検索ダイアログ start -->
+<div id="dialog">
+    <div class="form-inline">
+        <input type="text" id="text-search" class="form-control" />
+        <input type="button" id="btn-search" class="btn btn-primary" value="Search" />
+    </div>
+    <br />
+    <div id="result"></div>
+    <br />
+    <br />
+    <table class="table" id="table-emp">
+        <tr>
+            <th></th>
+            <th>
+                名前
+            </th>
+        </tr>
+
+        @foreach (var item in ViewBag.Emps as IEnumerable<ReportWebApp01.Models.Employee>)
+        {
+            <tr>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="selectEmp('@item.Nickname')">選択</button>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nickname)
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+    @Styles.Render("~/Content/themes/base")
+
+    <script type="text/javascript">
+
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('btn-search').addEventListener('click', function () {
+                var result = document.getElementById('result');
+                //var jyoshi = document.getElementById('Remarks');
+
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === 4) {    // 通信が完了した場合
+                        if (xhr.status === 200) {  // 通信が成功した場合
+                            result.textContent = '検索結果を表示中...';
+                            //jyoshi.value = xhr.responseText;
+                            
+                            if (xhr.responseText === '[]') {
+                                result.textContent = '検索条件に一致ユーザなし';
+                            } else {
+                                var data = JSON.parse(xhr.responseText);
+                                
+                                // 従業員表示テーブルつくりかえ
+                                var table = document.getElementById("table-emp");
+                                var rowLen = table.rows.length;
+                                //テーブルを全行削除
+                                //上の行から削除していくと下の行がずれていくので下から検査
+                                for (var i = rowLen - 1; i > 0; i--) {
+                                    table.deleteRow(i);
+                                }
+
+                                for (var i = 0; i < data.length; i++) {
+                                    // 行を行末に追加
+                                    var row = table.insertRow(-1);
+                                    //td分追加
+                                    var cell1 = row.insertCell(-1);
+                                    var cell2 = row.insertCell(-1);
+                                    cell1.innerHTML = '<button type="button" class="btn btn-primary" onclick="selectEmp(' + '\'' + data[i].Nickname+ '\'' + ')">選択</button>';
+                                    cell2.innerHTML = data[i].Nickname;
+                                }
+
+                                result.textContent = '検索結果を表示しました';
+                            }
+
+                        } else {
+                            result.textContent = '検索が失敗しました。';
+                        }
+                    } else {
+                        result.textContent = '検索中...';
+                    }
+                };
+                xhr.open('GET', '/Employees/AjaxTest2Result?search=' +
+                    encodeURIComponent(document.getElementById('text-search').value), true);
+                xhr.send(null);
+            }, false);
+        }, false);
+        
+
+        $("#dialog").dialog({
+            autoOpen: false,
+            modal: true,
+            title: "従業員検索ダイアログ",
+            height: 700,
+            width: 500,
+            buttons: {
+                Cancel: function () {
+                    $(this).dialog("close");
+                }
+            },
+            show: {
+                
+            },
+            hide: {
+                
+            }
+        });
+
+        $("#btn").click(function () {
+            $("#dialog").dialog("open");
+        });
+
+        function selectEmp(name) {
+            document.getElementById("Jyoshi").value = name;
+            $("#dialog").dialog("close");
+        }
+
+    </script>
+}

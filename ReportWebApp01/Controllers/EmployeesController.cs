@@ -4,8 +4,10 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 using OfficeOpenXml;
 using ReportWebApp01.Models;
 
@@ -396,6 +398,46 @@ namespace ReportWebApp01.Controllers
         }
 
         /********* カスタマイズCreate End *********/
+
+        [HttpGet]
+        public ActionResult AjaxTest2()
+        {
+            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Department_name");
+            ViewBag.Emps = db.Employees;
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult AjaxTest2Result(string search)
+        {
+            //Thread.Sleep(2000);
+
+            List<Employee> emps;
+            
+            if (String.IsNullOrEmpty(search))
+            {
+                emps = db.Employees.ToList();
+            }
+            else
+            {               
+                emps = db.Employees.Where(e => e.Nickname.Contains(search)).ToList();
+            }
+
+            string jsonString = JsonConvert.SerializeObject(emps);
+
+            return Content(jsonString);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxTest2([Bind(Include = "Id,Nickname,Birthday,DepartmentId,Remarks")] Employee employee)
+        {
+            ViewBag.DepartmentId = new SelectList(db.Departments, "Id", "Department_name");
+            ViewBag.Emps = db.Employees;
+
+            return View();
+        }
 
         protected override void Dispose(bool disposing)
         {
