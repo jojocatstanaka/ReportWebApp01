@@ -220,6 +220,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Steps.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -391,6 +392,7 @@
     <Content Include="Views\FitbitAccounts\Edit.cshtml" />
     <Content Include="Views\FitbitAccounts\Index.cshtml" />
     <Content Include="Views\Employees\AjaxTest2.cshtml" />
+    <Content Include="Views\Employees\AjaxTest3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

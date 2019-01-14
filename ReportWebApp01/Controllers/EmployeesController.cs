@@ -466,6 +466,74 @@ namespace ReportWebApp01.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult AjaxTest3Result1(string search)
+        {
+            Thread.Sleep(1000);
+
+            var emps = from e in db.Employees select e;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                emps = emps.Where(e => e.Nickname.Contains(search));
+            }
+
+            string jsonString = JsonConvert.SerializeObject(emps.ToList());
+
+            return Content(jsonString);
+        }
+
+        [HttpGet]
+        public ActionResult AjaxTest3Result2(string search)
+        {
+            Thread.Sleep(1000);
+
+            var emps = from e in db.Employees select e;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                emps = emps.Where(e => e.Nickname.Contains(search));
+            }
+
+            string jsonString = JsonConvert.SerializeObject(emps.ToList());
+
+            return Content(jsonString);
+        }
+
+        [HttpPost]
+        public ActionResult AjaxTest3Result3(string search)
+        {
+            Thread.Sleep(1000);
+
+            var emps = from e in db.Employees select e;
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                emps = emps.Where(e => e.Nickname.Contains(search));
+            }
+
+            string jsonString = JsonConvert.SerializeObject(emps.ToList());
+
+            return Content(jsonString);
+        }
+
+        [HttpGet]
+        public ActionResult AjaxTest3()
+        {
+            ViewBag.Emps = db.Employees.OrderBy(e => e.Id).ToList();
+
+            return View();
+        }
+
+        [HttpPost, ActionName("AjaxTest3")]
+        [ValidateAntiForgeryToken]
+        public ActionResult AjaxTest3Post()
+        {
+            ViewBag.Emps = db.Employees.OrderBy(e => e.Id).ToList();
+
+            return View();
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
